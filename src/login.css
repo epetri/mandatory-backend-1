@@ -1,0 +1,60 @@
+.welcomeText{
+    font-size: 40px;
+}
+
+.welcomeText-span{
+    font-family: cursive; 
+    color: rgb(223, 41, 72);
+}
+
+.loginForm-container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loginForm {
+    height: 270px;
+    width: 350px;
+    position: relative;
+}
+
+.loginForm-label{
+    position: absolute;
+    font-size: 30px;
+    width: 200px;
+    top: 50px;
+    left: 80px;
+}
+
+.loginForm-input{
+    height: 30px;
+    width: 200px;
+    border: none;
+    border-bottom: 2px solid  rgb(223, 41, 72);
+    outline: none;
+    text-align: center;
+    font-size: 25px;
+    color:  rgb(223, 41, 72);
+}
+
+.loginForm-button{
+    position: absolute;
+    bottom: 20px;
+    left: 105px;
+    background: initial;
+    border: 2px solid rgb(223, 41, 72);
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    outline: none;
+    color: rgb(223, 41, 72);
+    font-size: 20px;
+}
+
+.loginForm-button:hover{
+    background-color: rgb(223, 41, 72);
+    color: white;
+}

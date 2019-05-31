@@ -8,6 +8,8 @@ const id = require('uuid/v1');
 
 app.use(express.json());
 
+let user; 
+
 setInterval(() => { //sparar rum och meddelanden i history.json
     fs.writeFile("./history.json", JSON.stringify(history), function(err) {
       if (err) throw err;
@@ -41,13 +43,36 @@ app.post('/chatroom/:id/message', function(req, res){ //skapa meddelanden
         if(id === chatRooms[index].id){
             let message= {
                 id: id(),
-                from:  '',
+                from:  user,
                 content: content,
             };
-            chatRooms[index].messages.push(message)
+            chatRooms[index].messages.push(message);
+            res.status(200).send(message);
+            return;
         }
     }
-})
+    res.status(400).send('nope');
+});
+
+app.post("/login", (req,res)=>{
+    let username = req.body.username;
+    user = username;
+    app.status(200).send(username);
+});
+
+/*
+axios.post("/login", {username: "emma"})
+    .then(response=>{
+        console.log(response.data)
+        //emma
+    })
+
+/* 
+    en post till användaren
+    en delete. loopa chattrum
+    hämta ett spec. chattrum
+
+*/
 
 
 app.listen(port, function() {

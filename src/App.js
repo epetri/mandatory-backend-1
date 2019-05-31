@@ -1,22 +1,20 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './App.css';
-import axios from 'axios';
-
-function doRequest(){
-  axios.get('/login')
-    .then(response=>{
-      console.log(response);
-    })
-}
-
-
+import Login from './login.js';
 
 function App() {
   return (
-    <div className="App">
-      <h1>app.js</h1>
-       <button onClick={doRequest}>jnljn</button> 
-    </div>
+    <Router>
+      <div className="App">
+        <header>
+          <nav>
+            <Link>Change user</Link>
+          </nav>
+        </header>
+        <Route exact path='/' component={Login}/>
+      </div>
+    </Router>
   );
 }
 
