@@ -1,0 +1,28 @@
+.homeContainer{
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.homeHeader{
+    flex: 100%;
+}
+
+/* ====== SIDEBAR ======= */
+
+.nav-sidebar{
+    background-color: gray;
+    flex: 20%;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.nav-sidebar-button {
+
+}
+
+/* ====== MESSAGECONT ====*/
+.messageContainer{
+    background-color: rebeccapurple;
+    flex: 80%;
+    height: 100vh;
+}       
