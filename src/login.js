@@ -2,27 +2,32 @@ import React, {useState} from 'react';
 import { Helmet } from 'react-helmet'; 
 import { Redirect } from 'react-router-dom' 
 import axios from 'axios';
+import {updateUser} from "./store";
 import './login.css';
 
 function Login() {
     let [username, updateUsername] = useState('');
     let [checkUser, updateCheckuser] = useState(false);
+    let [errMsg, updateErrMsg] = useState(false);
     
     function onChange(e){  
        updateUsername(e.target.value)
     }
 
-    function postUsername(e) {
+    function postUsername(e) { 
         e.preventDefault();
         console.log(username);
         
         axios.post('/username', {username: username})
         .then((response) => {
+            console.log(response.data);
+            
             updateCheckuser(true)
-            console.log(response);
-        })
+            updateUser(response.data); //spara namnet i store.js
+        }) 
         .catch((error) => {
-            console.error(error)
+            console.error('hejhej') // Fixa felet
+            updateErrMsg('Name already taken');
         })
     }
 
@@ -38,7 +43,7 @@ function Login() {
         <h1 className='welcomeText'>Welcome to Chat<span className='welcomeText-span'>Room</span></h1>
         <form className='loginForm' onSubmit={postUsername}>
             <label className='loginForm-label'>
-                Choose username:    
+                {errMsg ? (<p className='login-errMsg'>{errMsg}</p>) : <p>Choose username:</p>}
                 <input className='loginForm-input' onChange={onChange}/>
             </label>
             <button className='loginForm-button' type='submit'>Continue</button>

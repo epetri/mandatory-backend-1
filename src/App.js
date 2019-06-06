@@ -10,7 +10,7 @@ function App() {
       <div className="App">
         <header>
           <nav>
-            <Link to='/'>Change user</Link>
+            <Link to='/' >Change user</Link>
           </nav>
         </header>
         <Route exact path='/' component={Login}/>

@@ -16,7 +16,7 @@
 }
 
 .loginForm {
-    height: 270px;
+    height: 300px;
     width: 350px;
     position: relative;
 }
@@ -27,6 +27,10 @@
     width: 200px;
     top: 50px;
     left: 80px;
+}
+
+.login-errMsg{
+    color: rgb(223, 41, 72);
 }
 
 .loginForm-input{

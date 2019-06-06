@@ -3,8 +3,23 @@
     flex-flow: row wrap;
 }
 
+/* === HEADER === */ 
+
 .homeHeader{
     flex: 100%;
+}
+
+.header-info{
+    display: flex;
+    flex-direction: row;
+}
+
+.welcomeText-username{
+
+}
+
+.changeUser{
+    
 }
 
 /* ====== SIDEBAR ======= */
@@ -17,7 +32,8 @@
 }
 
 .nav-sidebar-button {
-
+ border: none;
+ border-radius: 5px;
 }
 
 /* ====== MESSAGECONT ====*/

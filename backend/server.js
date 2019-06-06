@@ -9,46 +9,39 @@ const saveUsername = require('./username.json');
 
 app.use(express.json());
 
-let user; 
-
-setInterval(() => { //sparar rum och meddelanden i history.json
+setInterval(() => {         //sparar rum och meddelanden i history.json
     fs.writeFile("./history.json", JSON.stringify(history), function(err) {
       if (err) throw err;
-      console.log("done with fs writeFile", history);
+     // console.log("done with fs writeFile", history);
     });
   }, 30000);
 
 app.get('/', function(req, res){
     if(req.status !== 200){
-        resr.status(400).send(req.status);
+        res.status(400).send(req.status);
         return;
     }
     res.status(200).send(history);
 });
 
 app.post('/username', function(req, res){ //skapa användarnamn och spara i username.json
-    let username = req.body.username;    
-    let usernames = saveUsername.username;
+    let newUsername = req.body.username;    
+    let usernames = saveUsername.username;    
 
-    for (let name of usernames) { //funkar inte, man kan fortfarande lägga tll ett namn fast det redan finns
-        if(name !== username){
-            console.log(name);
-            
-            usernames.push(username); //utför ändringen
-            res.status(201).send(username);
-            fs.writeFile("./username.json", JSON.stringify(saveUsername), function(err) { //spara ändringen (username)
-                if (err) throw err;
-                console.log("done with fs writeFile", saveUsername);
-              });   
-              return;
-        }
+    for (let name of usernames) {             
+        if(name === newUsername){
+            res.status(400).send("this name is already taken")
+            return;
+        } 
     }
-    res.status(400).send("this name is already taken")
-});
+    usernames.push(newUsername);
+    fs.writeFile("./username.json", JSON.stringify(saveUsername), function(err) { 
+        if (err) throw err;
+        console.log("done with fs writeFile", saveUsername);
+      });   
 
-app.get('/getUserName', function(req, res){
-    res.status(200).send(saveUsername);
-})
+      res.status(200).send(newUsername);
+});
 
 app.post('/chatroom/add', function(req, res) { //skapa rum
     let name = req.body.name;
@@ -58,22 +51,33 @@ app.post('/chatroom/add', function(req, res) { //skapa rum
         messages: [],
     };
     history.chatRooms.push(chatroom);
-    if(res.status !== 201){
-        res.status(400).send(res.status);
-        return;
-    }
+
     res.status(201).send(chatroom);
 });
 
-app.get('/chatroom', function(req, res){
+app.delete('/chatroom/:id', function (req, res) {
+    let removeRoom = req.params.id;
+    let chatRooms = history.chatRooms;
 
-    res.status(200).send(history.chatRooms);
+    for( index in chatRooms){
+        if(chatRooms[index].id === removeRoom){
+            chatRooms.splice(index, 1)
+            res.status(200).send(chatRooms);
+        }   
+    } 
+    res.status(404).send('Not found');
+    return;
 })
 
+app.get('/chatroom', function(req, res){
+//validering
+    res.status(200).send(history.chatRooms);
+})
 
 app.post('/chatroom/:id/message', function(req, res){ //skapa meddelanden
     let id = req.params.id;
     let content = req.body.content;
+    let user = req.body.user; 
     let chatRooms = history.chatRooms;
 
     for (let index in chatRooms){ //lopa igenom alla chatrooms för att hitta rätt rum 
@@ -90,21 +94,6 @@ app.post('/chatroom/:id/message', function(req, res){ //skapa meddelanden
     }
     res.status(400).send('nope');
 });
-
-app.post("/login", (req,res)=>{
-    let username = req.body.username;
-    user = username;
-    app.status(201).send(username);
-});
-
-
-/* 
-    en post till användaren
-    en delete. loopa chattrum
-    hämta ett spec. chattrum
-
-*/
-
 
 app.listen(port, function() {
     console.log('listening on', port);
