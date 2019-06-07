@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Helmet } from 'react-helmet'; 
 import { Redirect } from 'react-router-dom' 
 import axios from 'axios';
-import {updateUser} from "./store";
+import {user$, updateUser} from "./store";
 import './login.css';
 
 function Login() {
@@ -15,6 +15,8 @@ function Login() {
     }
 
     function postUsername(e) { 
+        console.log({user$});
+        
         e.preventDefault();
         console.log(username);
         

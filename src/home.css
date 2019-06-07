@@ -14,31 +14,76 @@
     flex-direction: row;
 }
 
-.welcomeText-username{
-
+.welcomeText{
+    font-size: 70px;
 }
 
 .changeUser{
-    
+
 }
 
 /* ====== SIDEBAR ======= */
 
 .nav-sidebar{
-    background-color: gray;
-    flex: 20%;
+    padding-top: 30px;
+    flex: 19.5%;
     height: 100vh;
     flex-direction: column;
+    border: none;
+}
+
+.nav-sidebar > ul {
+    list-style: none;
+    text-align: left;
+
+}
+
+.nav-sidebar > ul > li {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+    margin-right: 5px;
+}
+
+.deleteButton {
+    background: initial;
+    border: none;
+}
+
+.deleteButton:hover{
+    font-size: 15px;
 }
 
 .nav-sidebar-button {
  border: none;
  border-radius: 5px;
+ background-color: rgb(223, 41, 72);
+ height: 30px;
+ color: white;
+ font-weight: bold;
+ margin: 10px;
+}
+
+.nav-sidebar-button:hover{
+    border: 2px solid rgb(184, 33, 58);
+}
+
+.border{
+    flex: 0.5%;
+    background-color: rgb(223, 41, 72);
+    border-radius: 5px
+}
+
+.nav-sidebar-input{
+    height: 30px;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
 }
 
 /* ====== MESSAGECONT ====*/
 .messageContainer{
-    background-color: rebeccapurple;
+    padding-top: 30px;
     flex: 80%;
     height: 100vh;
 }       
