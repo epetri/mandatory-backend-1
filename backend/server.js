@@ -5,21 +5,20 @@ const history = require('./history.json');
 const port = 8080;
 const uuid = require('uuid/v1');
 const saveUsername = require('./username.json');
-//var io = require('socket.io')();
+const socket = require('socket.io');
 
-const io = require('socket.io')(8181, {
-    // below are engine.IO options
-    pingInterval: 10000,
-    pingTimeout: 5000,
-    cookie: false
-  });
+const server = app.listen(port, function() {
+    console.log('listening on', port);
+});
+const io = socket(server);
+
 
 app.use(express.json());
 
 setInterval(() => {     //sparar rum och meddelanden i history.json
     fs.writeFile("./history.json", JSON.stringify(history), function(err) {
       if (err) throw err;
-     // console.log("done with fs writeFile", history);
+      console.log("done with fs writeFile", history);
     });
   }, 30000);
 
@@ -32,30 +31,6 @@ app.get('/', function(req, res){
     }
     res.status(200).send(history);
     res.sendFile(__dirname + './msg.js');
-});
-
-/* === Socket setup === */
-//lysnar på när klient connectar
-io.on('connection', function(socket)
-{
-    console.log('client connected with id: ' + socket.id);
-
-    //When a client change between chat rooms
-    socket.on('change-room', (data) => {
-        socket.emit('user-disconnect', socket.id);   
-        socket.join(data.roomId);
-        socket.emit('user-connect', socket.id);  
-    });
-
-    socket.on('chat', () => {
-        socket.emit('chat', data);
-    });
-
-    socket.on('disconnect', (reason) => 
-    {
-        io.emit('user-disconnect', socket.id);
-        console.log('client disconnected with reason: ' + reason);
-    });
 });
 
 app.get('/chatroom', function(req, res){
@@ -100,20 +75,21 @@ app.post('/username', function(req, res){ //skapa användarnamn och spara i user
 
 app.post('/chatroom/:id/message', function(req, res){ //skapa meddelanden
     let id = req.params.id;    
-    let messages = req.body.messages;
+    let value = req.body.value;
     let user = req.body.user; 
     let chatRooms = history.chatRooms;
-    console.log('ID', messages);
+    console.log('ID', value);
 
     for (let index in chatRooms){ //lopa igenom alla chatrooms för att hitta rätt rum 
         if(id === chatRooms[index].id){
             let message= {
                 id: uuid(),
                 from:  user,
-                messages: messages,
+                value: value,
             };
             chatRooms[index].messages.push(message);
             res.status(201).send(message);
+            io.emit("new_message", { id, message });
             return;
         }
     }
@@ -142,12 +118,10 @@ app.delete('/chatroom/:id', function (req, res) {
         if(chatRooms[index].id === removeRoom){
             chatRooms.splice(index, 1)
             res.status(200).send(chatRooms);
+            return;
         }   
     } 
     res.status(404).send('Not found');
     return;
 })
 
-app.listen(port, function() {
-    console.log('listening on', port);
-});

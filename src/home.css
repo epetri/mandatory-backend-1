@@ -16,18 +16,16 @@
 
 .welcomeText{
     font-size: 70px;
+    margin: 0;
 }
 
-.changeUser{
-
-}
 
 /* ====== SIDEBAR ======= */
 
 .nav-sidebar{
     padding-top: 30px;
     flex: 19.5%;
-    height: 100vh;
+    height: 400px;
     flex-direction: column;
     border: none;
 }
@@ -40,7 +38,6 @@
 
 .nav-sidebar > ul > li {
     display: flex;
-    justify-content: space-between;
     margin-top: 3px;
     margin-right: 5px;
 }
@@ -81,9 +78,39 @@
     outline: none;
 }
 
+.room:active{
+    text-decoration: underline;
+}
+
 /* ====== MESSAGECONT ====*/
 .messageContainer{
-    padding-top: 30px;
+    padding-top: 20px;
     flex: 80%;
-    height: 100vh;
-}       
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}   
+
+.messageContainer-messages{
+    width: 600px;
+    margin: auto;
+    height: 300px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.messageContainer-ul{
+    list-style: none;
+}
+
+.message-from{
+    background-color: rgb(223, 41, 72);
+    border-radius: 10px 10px 0 0;
+}
+
+.message{
+    background-color: rgb(245, 212, 212);
+    border-radius: 10px;
+}
+
